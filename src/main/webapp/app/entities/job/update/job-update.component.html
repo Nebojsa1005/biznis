@@ -1,0 +1,152 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-job-heading" data-cy="JobCreateUpdateHeading" jhiTranslate="serveUpApp.job.home.createOrEditLabel">
+        Create or edit a Job
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="serveUpApp.job.id" for="field_id">Id</label>
+          <input type="text" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="serveUpApp.job.title" for="field_title">Title</label>
+          <input type="text" class="form-control" name="title" id="field_title" data-cy="title" formControlName="title" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="serveUpApp.job.description" for="field_description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="serveUpApp.job.dificulty" for="field_dificulty">Dificulty</label>
+          <input type="number" class="form-control" name="dificulty" id="field_dificulty" data-cy="dificulty" formControlName="dificulty" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="serveUpApp.job.dateFrom" for="field_dateFrom">Date From</label>
+          <div class="d-flex">
+            <input
+              id="field_dateFrom"
+              data-cy="dateFrom"
+              type="datetime-local"
+              class="form-control"
+              name="dateFrom"
+              formControlName="dateFrom"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="serveUpApp.job.dateTo" for="field_dateTo">Date To</label>
+          <div class="d-flex">
+            <input
+              id="field_dateTo"
+              data-cy="dateTo"
+              type="datetime-local"
+              class="form-control"
+              name="dateTo"
+              formControlName="dateTo"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="serveUpApp.job.isActive" for="field_isActive">Is Active</label>
+          <input type="checkbox" class="form-check" name="isActive" id="field_isActive" data-cy="isActive" formControlName="isActive" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="serveUpApp.job.jobType" for="field_jobType">Job Type</label>
+          <select class="form-control" name="jobType" formControlName="jobType" id="field_jobType" data-cy="jobType">
+            <option [ngValue]="null">{{ 'serveUpApp.JobType.null' | translate }}</option>
+            <option *ngFor="let jobType of jobTypeValues" [value]="jobType">{{ 'serveUpApp.JobType.' + jobType | translate }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="serveUpApp.job.typeOfJob" for="field_typeOfJob">Type Of Job</label>
+          <select class="form-control" name="typeOfJob" formControlName="typeOfJob" id="field_typeOfJob" data-cy="typeOfJob">
+            <option [ngValue]="null">{{ 'serveUpApp.JobType.null' | translate }}</option>
+            <option *ngFor="let jobType of jobTypeValues" [value]="jobType">{{ 'serveUpApp.JobType.' + jobType | translate }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="serveUpApp.job.location" for="field_location">Location</label>
+          <select
+            class="form-control"
+            id="field_location"
+            data-cy="location"
+            name="location"
+            formControlName="location"
+            [compareWith]="compareLocation"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="locationOption" *ngFor="let locationOption of locationsCollection">{{ locationOption.id }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label jhiTranslate="serveUpApp.job.comment" for="field_comments">Comment</label>
+          <select
+            class="form-control"
+            id="field_comments"
+            data-cy="comment"
+            multiple
+            name="comments"
+            formControlName="comments"
+            [compareWith]="compareComment"
+          >
+            <option [ngValue]="commentOption" *ngFor="let commentOption of commentsSharedCollection">{{ commentOption.id }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label jhiTranslate="serveUpApp.job.rating" for="field_ratings">Rating</label>
+          <select
+            class="form-control"
+            id="field_ratings"
+            data-cy="rating"
+            multiple
+            name="ratings"
+            formControlName="ratings"
+            [compareWith]="compareRating"
+          >
+            <option [ngValue]="ratingOption" *ngFor="let ratingOption of ratingsSharedCollection">{{ ratingOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

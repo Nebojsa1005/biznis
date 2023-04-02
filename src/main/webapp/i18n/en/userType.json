@@ -1,0 +1,9 @@
+{
+  "serveUpApp": {
+    "UserType": {
+      "null": "",
+      "EMPLOYEE": "EMPLOYEE",
+      "EMPLOYER": "EMPLOYER"
+    }
+  }
+}

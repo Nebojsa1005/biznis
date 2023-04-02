@@ -1,0 +1,66 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-job-employee-heading"
+        data-cy="JobEmployeeCreateUpdateHeading"
+        jhiTranslate="serveUpApp.jobEmployee.home.createOrEditLabel"
+      >
+        Create or edit a Job Employee
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="serveUpApp.jobEmployee.type" for="field_type">Type</label>
+          <select class="form-control" name="type" formControlName="type" id="field_type" data-cy="type">
+            <option [ngValue]="null">{{ 'serveUpApp.EmployeeType.null' | translate }}</option>
+            <option *ngFor="let employeeType of employeeTypeValues" [value]="employeeType">
+              {{ 'serveUpApp.EmployeeType.' + employeeType | translate }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="serveUpApp.jobEmployee.number" for="field_number">Number</label>
+          <input type="number" class="form-control" name="number" id="field_number" data-cy="number" formControlName="number" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="serveUpApp.jobEmployee.found" for="field_found">Found</label>
+          <input type="number" class="form-control" name="found" id="field_found" data-cy="found" formControlName="found" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="serveUpApp.jobEmployee.job" for="field_job">Job</label>
+          <select class="form-control" id="field_job" data-cy="job" name="job" formControlName="job" [compareWith]="compareJob">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="jobOption" *ngFor="let jobOption of jobsSharedCollection">{{ jobOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

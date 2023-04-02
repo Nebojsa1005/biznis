@@ -1,0 +1,10 @@
+{
+  "serveUpApp": {
+    "EmployeeType": {
+      "null": "",
+      "WAITER": "WAITER",
+      "BARTENDER": "BARTENDER",
+      "COOK": "COOK"
+    }
+  }
+}

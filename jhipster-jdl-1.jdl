@@ -1,0 +1,82 @@
+
+application {
+  config {
+    baseName serveUp,
+    applicationType monolith,
+    packageName com.serveup,
+    authenticationType jwt,
+    prodDatabaseType mysql,
+    clientFramework angular
+  }
+  entities *
+}
+
+entity AppUser {
+	id UUID,
+	firstName String,
+    lastName String,
+    email String,
+    phone Long,
+    image ImageBlob,
+    avgSalary Double,
+    avgRating Double,
+    isActive Boolean,
+    userType UserType
+}
+enum UserType{
+	EMPLOYEE, EMPLOYER
+}
+entity Job {
+	id UUID,
+	title String,
+    description String,
+    dificulty Double,
+    dateFrom Instant,
+    dateTo Instant,
+    isActive Boolean,
+    jobType JobType,
+    typeOfJob JobType
+}
+entity JobEmployee{
+	type EmployeeType,
+    number Integer,
+    found Integer
+}
+enum JobType{
+	PERMANENT, ONE_TIME
+}
+enum EmployeeType{
+	WAITER, BARTENDER, COOK
+}
+entity Location{
+	id UUID,
+	latitude Double,
+    longitude Double,
+    streetAddress String,
+    postalCode Long
+}
+entity Rating{
+	id UUID,
+	rating BigDecimal
+}
+
+entity Comment{
+	id UUID,
+    comment String,
+}
+enum Language{
+  	EN, RS
+}
+relationship OneToMany{
+ Job{employees} to JobEmployee
+}
+relationship OneToOne{
+	Job to Location
+}
+relationship ManyToMany {
+	AppUser to Job,
+    AppUser to Comment,
+    Job to Comment,
+    AppUser to Rating,
+    Job to Rating
+}

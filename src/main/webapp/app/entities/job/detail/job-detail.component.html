@@ -1,0 +1,80 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="job">
+      <h2 data-cy="jobDetailsHeading"><span jhiTranslate="serveUpApp.job.detail.title">Job</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="serveUpApp.job.id">Id</span></dt>
+        <dd>
+          <span>{{ job.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.job.title">Title</span></dt>
+        <dd>
+          <span>{{ job.title }}</span>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.job.description">Description</span></dt>
+        <dd>
+          <span>{{ job.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.job.dificulty">Dificulty</span></dt>
+        <dd>
+          <span>{{ job.dificulty }}</span>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.job.dateFrom">Date From</span></dt>
+        <dd>
+          <span>{{ job.dateFrom | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.job.dateTo">Date To</span></dt>
+        <dd>
+          <span>{{ job.dateTo | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.job.isActive">Is Active</span></dt>
+        <dd>
+          <span>{{ job.isActive }}</span>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.job.jobType">Job Type</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'serveUpApp.JobType.' + job.jobType }}">{{ job.jobType }}</span>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.job.typeOfJob">Type Of Job</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'serveUpApp.JobType.' + job.typeOfJob }}">{{ job.typeOfJob }}</span>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.job.location">Location</span></dt>
+        <dd>
+          <div *ngIf="job.location">
+            <a [routerLink]="['/location', job.location.id, 'view']">{{ job.location.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.job.comment">Comment</span></dt>
+        <dd>
+          <span *ngFor="let comment of job.comments; let last = last">
+            <a [routerLink]="['/comment', comment.id, 'view']">{{ comment.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.job.rating">Rating</span></dt>
+        <dd>
+          <span *ngFor="let rating of job.ratings; let last = last">
+            <a [routerLink]="['/rating', rating.id, 'view']">{{ rating.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/job', job.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

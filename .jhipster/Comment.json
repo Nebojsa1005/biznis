@@ -1,0 +1,39 @@
+{
+  "applications": ["serveUp"],
+  "changelogDate": "20230402215025",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "comment",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldName": "comment",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Comment",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "appUser",
+      "otherEntityRelationshipName": "comment",
+      "ownerSide": false,
+      "relationshipName": "appUser",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "job",
+      "otherEntityRelationshipName": "comment",
+      "ownerSide": false,
+      "relationshipName": "job",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "no"
+}

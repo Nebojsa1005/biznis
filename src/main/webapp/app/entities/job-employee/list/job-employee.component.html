@@ -1,0 +1,113 @@
+<div>
+  <h2 id="page-heading" data-cy="JobEmployeeHeading">
+    <span jhiTranslate="serveUpApp.jobEmployee.home.title">Job Employees</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="serveUpApp.jobEmployee.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-job-employee"
+        [routerLink]="['/job-employee/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="serveUpApp.jobEmployee.home.createLabel"> Create a new Job Employee </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="jobEmployees?.length === 0">
+    <span jhiTranslate="serveUpApp.jobEmployee.home.notFound">No Job Employees found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="jobEmployees && jobEmployees.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="type">
+            <div class="d-flex">
+              <span jhiTranslate="serveUpApp.jobEmployee.type">Type</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="number">
+            <div class="d-flex">
+              <span jhiTranslate="serveUpApp.jobEmployee.number">Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="found">
+            <div class="d-flex">
+              <span jhiTranslate="serveUpApp.jobEmployee.found">Found</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="job.id">
+            <div class="d-flex">
+              <span jhiTranslate="serveUpApp.jobEmployee.job">Job</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let jobEmployee of jobEmployees; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/job-employee', jobEmployee.id, 'view']">{{ jobEmployee.id }}</a>
+          </td>
+          <td jhiTranslate="{{ 'serveUpApp.EmployeeType.' + jobEmployee.type }}">{{ jobEmployee.type }}</td>
+          <td>{{ jobEmployee.number }}</td>
+          <td>{{ jobEmployee.found }}</td>
+          <td>
+            <div *ngIf="jobEmployee.job">
+              <a [routerLink]="['/job', jobEmployee.job.id, 'view']">{{ jobEmployee.job.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/job-employee', jobEmployee.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/job-employee', jobEmployee.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(jobEmployee)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

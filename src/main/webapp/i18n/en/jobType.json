@@ -1,0 +1,9 @@
+{
+  "serveUpApp": {
+    "JobType": {
+      "null": "",
+      "PERMANENT": "PERMANENT",
+      "ONE_TIME": "ONE_TIME"
+    }
+  }
+}

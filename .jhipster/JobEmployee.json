@@ -1,0 +1,36 @@
+{
+  "applications": ["serveUp"],
+  "changelogDate": "20230402214725",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "job_employee",
+  "fields": [
+    {
+      "fieldName": "type",
+      "fieldType": "EmployeeType",
+      "fieldValues": "WAITER,BARTENDER,COOK"
+    },
+    {
+      "fieldName": "number",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "found",
+      "fieldType": "Integer"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "JobEmployee",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "job",
+      "otherEntityRelationshipName": "employees",
+      "relationshipName": "job",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

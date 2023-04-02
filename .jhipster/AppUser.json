@@ -1,0 +1,80 @@
+{
+  "applications": ["serveUp"],
+  "changelogDate": "20230402214525",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "app_user",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldName": "firstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "phone",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "image",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "avgSalary",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "avgRating",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "isActive",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "userType",
+      "fieldType": "UserType",
+      "fieldValues": "EMPLOYEE,EMPLOYER"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "AppUser",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "job",
+      "otherEntityRelationshipName": "appUser",
+      "ownerSide": true,
+      "relationshipName": "job",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "comment",
+      "otherEntityRelationshipName": "appUser",
+      "ownerSide": true,
+      "relationshipName": "comment",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "rating",
+      "otherEntityRelationshipName": "appUser",
+      "ownerSide": true,
+      "relationshipName": "rating",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "no"
+}

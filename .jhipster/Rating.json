@@ -1,0 +1,39 @@
+{
+  "applications": ["serveUp"],
+  "changelogDate": "20230402214925",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "rating",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldName": "rating",
+      "fieldType": "BigDecimal"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Rating",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "appUser",
+      "otherEntityRelationshipName": "rating",
+      "ownerSide": false,
+      "relationshipName": "appUser",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "job",
+      "otherEntityRelationshipName": "rating",
+      "ownerSide": false,
+      "relationshipName": "job",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "no"
+}

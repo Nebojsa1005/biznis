@@ -1,0 +1,152 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-app-user-heading" data-cy="AppUserCreateUpdateHeading" jhiTranslate="serveUpApp.appUser.home.createOrEditLabel">
+        Create or edit a App User
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="serveUpApp.appUser.id" for="field_id">Id</label>
+          <input type="text" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="serveUpApp.appUser.firstName" for="field_firstName">First Name</label>
+          <input type="text" class="form-control" name="firstName" id="field_firstName" data-cy="firstName" formControlName="firstName" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="serveUpApp.appUser.lastName" for="field_lastName">Last Name</label>
+          <input type="text" class="form-control" name="lastName" id="field_lastName" data-cy="lastName" formControlName="lastName" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="serveUpApp.appUser.email" for="field_email">Email</label>
+          <input type="text" class="form-control" name="email" id="field_email" data-cy="email" formControlName="email" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="serveUpApp.appUser.phone" for="field_phone">Phone</label>
+          <input type="number" class="form-control" name="phone" id="field_phone" data-cy="phone" formControlName="phone" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="serveUpApp.appUser.image" for="field_image">Image</label>
+          <div>
+            <img
+              [src]="'data:' + editForm.get('imageContentType')!.value + ';base64,' + editForm.get('image')!.value"
+              style="max-height: 100px"
+              *ngIf="editForm.get('image')!.value"
+              alt="appUser image"
+            />
+            <div *ngIf="editForm.get('image')!.value" class="form-text text-danger clearfix">
+              <span class="pull-start">{{ editForm.get('imageContentType')!.value }}, {{ byteSize(editForm.get('image')!.value!) }}</span>
+              <button
+                type="button"
+                (click)="clearInputImage('image', 'imageContentType', 'file_image')"
+                class="btn btn-secondary btn-xs pull-end"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input
+              type="file"
+              id="file_image"
+              data-cy="image"
+              (change)="setFileData($event, 'image', true)"
+              accept="image/*"
+              jhiTranslate="entity.action.addimage"
+            />
+          </div>
+          <input type="hidden" class="form-control" name="image" id="field_image" data-cy="image" formControlName="image" />
+          <input
+            type="hidden"
+            class="form-control"
+            name="imageContentType"
+            id="field_imageContentType"
+            formControlName="imageContentType"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="serveUpApp.appUser.avgSalary" for="field_avgSalary">Avg Salary</label>
+          <input type="number" class="form-control" name="avgSalary" id="field_avgSalary" data-cy="avgSalary" formControlName="avgSalary" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="serveUpApp.appUser.avgRating" for="field_avgRating">Avg Rating</label>
+          <input type="number" class="form-control" name="avgRating" id="field_avgRating" data-cy="avgRating" formControlName="avgRating" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="serveUpApp.appUser.isActive" for="field_isActive">Is Active</label>
+          <input type="checkbox" class="form-check" name="isActive" id="field_isActive" data-cy="isActive" formControlName="isActive" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="serveUpApp.appUser.userType" for="field_userType">User Type</label>
+          <select class="form-control" name="userType" formControlName="userType" id="field_userType" data-cy="userType">
+            <option [ngValue]="null">{{ 'serveUpApp.UserType.null' | translate }}</option>
+            <option *ngFor="let userType of userTypeValues" [value]="userType">{{ 'serveUpApp.UserType.' + userType | translate }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label jhiTranslate="serveUpApp.appUser.job" for="field_jobs">Job</label>
+          <select class="form-control" id="field_jobs" data-cy="job" multiple name="jobs" formControlName="jobs" [compareWith]="compareJob">
+            <option [ngValue]="jobOption" *ngFor="let jobOption of jobsSharedCollection">{{ jobOption.id }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label jhiTranslate="serveUpApp.appUser.comment" for="field_comments">Comment</label>
+          <select
+            class="form-control"
+            id="field_comments"
+            data-cy="comment"
+            multiple
+            name="comments"
+            formControlName="comments"
+            [compareWith]="compareComment"
+          >
+            <option [ngValue]="commentOption" *ngFor="let commentOption of commentsSharedCollection">{{ commentOption.id }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label jhiTranslate="serveUpApp.appUser.rating" for="field_ratings">Rating</label>
+          <select
+            class="form-control"
+            id="field_ratings"
+            data-cy="rating"
+            multiple
+            name="ratings"
+            formControlName="ratings"
+            [compareWith]="compareRating"
+          >
+            <option [ngValue]="ratingOption" *ngFor="let ratingOption of ratingsSharedCollection">{{ ratingOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

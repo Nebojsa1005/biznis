@@ -1,0 +1,90 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="appUser">
+      <h2 data-cy="appUserDetailsHeading"><span jhiTranslate="serveUpApp.appUser.detail.title">App User</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="serveUpApp.appUser.id">Id</span></dt>
+        <dd>
+          <span>{{ appUser.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.appUser.firstName">First Name</span></dt>
+        <dd>
+          <span>{{ appUser.firstName }}</span>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.appUser.lastName">Last Name</span></dt>
+        <dd>
+          <span>{{ appUser.lastName }}</span>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.appUser.email">Email</span></dt>
+        <dd>
+          <span>{{ appUser.email }}</span>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.appUser.phone">Phone</span></dt>
+        <dd>
+          <span>{{ appUser.phone }}</span>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.appUser.image">Image</span></dt>
+        <dd>
+          <div *ngIf="appUser.image">
+            <a (click)="openFile(appUser.image, appUser.imageContentType)">
+              <img [src]="'data:' + appUser.imageContentType + ';base64,' + appUser.image" style="max-width: 100%" alt="appUser image" />
+            </a>
+            {{ appUser.imageContentType }}, {{ byteSize(appUser.image) }}
+          </div>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.appUser.avgSalary">Avg Salary</span></dt>
+        <dd>
+          <span>{{ appUser.avgSalary }}</span>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.appUser.avgRating">Avg Rating</span></dt>
+        <dd>
+          <span>{{ appUser.avgRating }}</span>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.appUser.isActive">Is Active</span></dt>
+        <dd>
+          <span>{{ appUser.isActive }}</span>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.appUser.userType">User Type</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'serveUpApp.UserType.' + appUser.userType }}">{{ appUser.userType }}</span>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.appUser.job">Job</span></dt>
+        <dd>
+          <span *ngFor="let job of appUser.jobs; let last = last">
+            <a [routerLink]="['/job', job.id, 'view']">{{ job.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.appUser.comment">Comment</span></dt>
+        <dd>
+          <span *ngFor="let comment of appUser.comments; let last = last">
+            <a [routerLink]="['/comment', comment.id, 'view']">{{ comment.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+        <dt><span jhiTranslate="serveUpApp.appUser.rating">Rating</span></dt>
+        <dd>
+          <span *ngFor="let rating of appUser.ratings; let last = last">
+            <a [routerLink]="['/rating', rating.id, 'view']">{{ rating.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/app-user', appUser.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

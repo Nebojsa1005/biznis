@@ -1,0 +1,89 @@
+{
+  "applications": ["serveUp"],
+  "changelogDate": "20230402214625",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "job",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldName": "title",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dificulty",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "dateFrom",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "dateTo",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "isActive",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "jobType",
+      "fieldType": "JobType",
+      "fieldValues": "PERMANENT,ONE_TIME"
+    },
+    {
+      "fieldName": "typeOfJob",
+      "fieldType": "JobType",
+      "fieldValues": "PERMANENT,ONE_TIME"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Job",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "location",
+      "otherEntityRelationshipName": "job",
+      "ownerSide": true,
+      "relationshipName": "location",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "jobEmployee",
+      "otherEntityRelationshipName": "job",
+      "relationshipName": "employees",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "comment",
+      "otherEntityRelationshipName": "job",
+      "ownerSide": true,
+      "relationshipName": "comment",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "rating",
+      "otherEntityRelationshipName": "job",
+      "ownerSide": true,
+      "relationshipName": "rating",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "appUser",
+      "otherEntityRelationshipName": "job",
+      "ownerSide": false,
+      "relationshipName": "appUser",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "no"
+}

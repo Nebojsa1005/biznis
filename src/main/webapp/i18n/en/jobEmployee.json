@@ -1,0 +1,27 @@
+{
+  "serveUpApp": {
+    "jobEmployee": {
+      "home": {
+        "title": "Job Employees",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Job Employee",
+        "createOrEditLabel": "Create or edit a Job Employee",
+        "notFound": "No Job Employees found"
+      },
+      "created": "A new Job Employee is created with identifier {{ param }}",
+      "updated": "A Job Employee is updated with identifier {{ param }}",
+      "deleted": "A Job Employee is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Job Employee {{ id }}?"
+      },
+      "detail": {
+        "title": "Job Employee"
+      },
+      "id": "ID",
+      "type": "Type",
+      "number": "Number",
+      "found": "Found",
+      "job": "Job"
+    }
+  }
+}

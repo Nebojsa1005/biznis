@@ -1,0 +1,185 @@
+<div>
+  <h2 id="page-heading" data-cy="AppUserHeading">
+    <span jhiTranslate="serveUpApp.appUser.home.title">App Users</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="serveUpApp.appUser.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-app-user"
+        [routerLink]="['/app-user/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="serveUpApp.appUser.home.createLabel"> Create a new App User </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="appUsers?.length === 0">
+    <span jhiTranslate="serveUpApp.appUser.home.notFound">No App Users found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="appUsers && appUsers.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="serveUpApp.appUser.id">Id</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="firstName">
+            <div class="d-flex">
+              <span jhiTranslate="serveUpApp.appUser.firstName">First Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="lastName">
+            <div class="d-flex">
+              <span jhiTranslate="serveUpApp.appUser.lastName">Last Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="email">
+            <div class="d-flex">
+              <span jhiTranslate="serveUpApp.appUser.email">Email</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="phone">
+            <div class="d-flex">
+              <span jhiTranslate="serveUpApp.appUser.phone">Phone</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="image">
+            <div class="d-flex">
+              <span jhiTranslate="serveUpApp.appUser.image">Image</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="avgSalary">
+            <div class="d-flex">
+              <span jhiTranslate="serveUpApp.appUser.avgSalary">Avg Salary</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="avgRating">
+            <div class="d-flex">
+              <span jhiTranslate="serveUpApp.appUser.avgRating">Avg Rating</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="isActive">
+            <div class="d-flex">
+              <span jhiTranslate="serveUpApp.appUser.isActive">Is Active</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="userType">
+            <div class="d-flex">
+              <span jhiTranslate="serveUpApp.appUser.userType">User Type</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="job.id">
+            <div class="d-flex">
+              <span jhiTranslate="serveUpApp.appUser.job">Job</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="comment.id">
+            <div class="d-flex">
+              <span jhiTranslate="serveUpApp.appUser.comment">Comment</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="rating.id">
+            <div class="d-flex">
+              <span jhiTranslate="serveUpApp.appUser.rating">Rating</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let appUser of appUsers; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/app-user', appUser.id, 'view']">{{ appUser.id }}</a>
+          </td>
+          <td>{{ appUser.firstName }}</td>
+          <td>{{ appUser.lastName }}</td>
+          <td>{{ appUser.email }}</td>
+          <td>{{ appUser.phone }}</td>
+          <td>
+            <a *ngIf="appUser.image" (click)="openFile(appUser.image, appUser.imageContentType)">
+              <img [src]="'data:' + appUser.imageContentType + ';base64,' + appUser.image" style="max-height: 30px" alt="appUser image" />
+            </a>
+            <span *ngIf="appUser.image">{{ appUser.imageContentType }}, {{ byteSize(appUser.image) }}</span>
+          </td>
+          <td>{{ appUser.avgSalary }}</td>
+          <td>{{ appUser.avgRating }}</td>
+          <td>{{ appUser.isActive }}</td>
+          <td jhiTranslate="{{ 'serveUpApp.UserType.' + appUser.userType }}">{{ appUser.userType }}</td>
+          <td>
+            <span *ngFor="let job of appUser.jobs; let last = last">
+              <a class="form-control-static" [routerLink]="['/job', job.id, 'view']">{{ job.id }}</a
+              >{{ last ? '' : ', ' }}
+            </span>
+          </td>
+          <td>
+            <span *ngFor="let comment of appUser.comments; let last = last">
+              <a class="form-control-static" [routerLink]="['/comment', comment.id, 'view']">{{ comment.id }}</a
+              >{{ last ? '' : ', ' }}
+            </span>
+          </td>
+          <td>
+            <span *ngFor="let rating of appUser.ratings; let last = last">
+              <a class="form-control-static" [routerLink]="['/rating', rating.id, 'view']">{{ rating.id }}</a
+              >{{ last ? '' : ', ' }}
+            </span>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/app-user', appUser.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/app-user', appUser.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(appUser)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
